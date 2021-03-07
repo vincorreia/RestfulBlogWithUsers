@@ -22,7 +22,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -61,7 +61,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, unique=True, nullable=False)
     name = db.Column(db.String, nullable=False)
-    password = db.Column(db.Integer, nullable=False)
+    password = db.Column(db.String, nullable=False)
 
     # -------------------- Children Relationship --------------#
     posts = relationship("BlogPost", back_populates="author")
